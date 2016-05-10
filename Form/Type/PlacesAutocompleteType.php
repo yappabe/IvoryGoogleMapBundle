@@ -18,6 +18,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
@@ -37,12 +38,12 @@ class PlacesAutocompleteType extends AbstractType
      * Creates a places autocomplete form type.
      *
      * @param \Ivory\GoogleMap\Helper\Places\AutocompleteHelper $autocompleteHelper The autocomplete helper.
-     * @param \Ivory\GoogleMapBundle\Form\Type\Request          $request            The http request.
+     * @param RequestStack $requestStack
      */
-    public function __construct(AutocompleteHelper $autocompleteHelper, Request $request)
+    public function __construct(AutocompleteHelper $autocompleteHelper, RequestStack $requestStack)
     {
         $this->setAutocompleteHelper($autocompleteHelper);
-        $this->setRequest($request);
+        $this->setRequest($requestStack->getCurrentRequest());
     }
 
     /**
