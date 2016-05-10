@@ -24,7 +24,7 @@
 
     <services>
         <!-- Coordinate service -->
-        <service id="ivory_google_map.coordinate" class="%ivory_google_map.coordinate.class%" scope="prototype">
+        <service id="ivory_google_map.coordinate" class="%ivory_google_map.coordinate.class%" shared="false">
             <factory service="ivory_google_map.coordinate.builder" method="build" />
         </service>
 
@@ -35,7 +35,7 @@
         <service id="ivory_google_map.helper.coordinate" class="%ivory_google_map.coordinate.helper.class%" public="false" />
 
         <!-- Bound service -->
-        <service id="ivory_google_map.bound" class="%ivory_google_map.bound.class%" scope="prototype">
+        <service id="ivory_google_map.bound" class="%ivory_google_map.bound.class%" shared="false">
             <factory service="ivory_google_map.bound.builder" method="build" />
         </service>
 
@@ -49,7 +49,7 @@
         </service>
 
         <!-- Point service -->
-        <service id="ivory_google_map.point" class="%ivory_google_map.point.class%" scope="prototype">
+        <service id="ivory_google_map.point" class="%ivory_google_map.point.class%" shared="false">
             <factory service="ivory_google_map.point.builder" method="build" />
         </service>
 
@@ -60,7 +60,7 @@
         <service id="ivory_google_map.helper.point" class="%ivory_google_map.point.helper.class%" public="false" />
 
         <!-- Size service -->
-        <service id="ivory_google_map.size" class="%ivory_google_map.size.class%" scope="prototype">
+        <service id="ivory_google_map.size" class="%ivory_google_map.size.class%" shared="false">
             <factory service="ivory_google_map.size.builder" method="build" />
         </service>
 
