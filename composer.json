@@ -1,5 +1,5 @@
 {
-    "name": "egeloen/google-map-bundle",
+    "name": "wesleylancel/google-map-bundle",
     "type": "symfony-bundle",
     "description": "Provides a google map integration for your Symfony2 Project.",
     "keywords": [ "google map" ],
