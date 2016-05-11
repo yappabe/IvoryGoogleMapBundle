@@ -252,6 +252,10 @@ class IvoryGoogleMapExtension extends Extension
             $mapOptions['zoom'] = $config['map']['zoom'];
         }
 
+        if (isset($config['map']['map_styles'])) {
+            $mapOptions['styles'] = $config['map']['map_styles'];
+        }
+
         if (isset($config['map']['map_options'])) {
             $mapOptions = array_merge($config['map']['map_options'], $mapOptions);
         }
