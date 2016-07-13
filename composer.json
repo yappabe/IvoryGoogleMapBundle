@@ -1,5 +1,5 @@
 {
-    "name": "veloxy/google-map-bundle",
+    "name": "wesleylancel/google-map-bundle",
     "type": "library",
     "description": "Provides a google map integration for your Symfony2 Project.",
     "keywords": [ "google map" ],
