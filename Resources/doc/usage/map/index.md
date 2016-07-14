@@ -13,6 +13,7 @@ below is this default configuration.
 
 ivory_google_map:
     map:
+        api_key: YourGoogleMapApiAKey
         # You own map class
         class: "My\Fucking\Map"
 
