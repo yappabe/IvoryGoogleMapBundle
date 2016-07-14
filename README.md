@@ -1,3 +1,4 @@
+# README
 
 **Note: This is a copy of [egeloen/IvoryGoogleMapBundle](https://github.com/egeloen/IvoryGoogleMapBundle), the original repository is no longer maintained. We're paranoid, so we didn't fork.**
 
@@ -5,9 +6,7 @@ Differences compared to the original:
 - Symfony 3.x support
 - API key support
 
-# README
-
-The bundle provides an integration of the [Ivory Google Map](https://github.com/egeloen/ivory-google-map) library for
+The bundle provides an integration of the [Ivory Google Map](https://github.com/yappabe/ivory-google-map) library for
 your Symfony2 project.
 
 ## Documentation
