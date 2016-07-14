@@ -14,11 +14,13 @@ namespace Ivory\GoogleMapBundle\Form\Type;
 use Ivory\GoogleMap\Helper\Places\AutocompleteHelper;
 use Ivory\GoogleMap\Places\Autocomplete;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
@@ -139,10 +141,7 @@ class PlacesAutocompleteType extends AbstractType
         $view->vars['javascripts'] = $this->getAutocompleteHelper()->renderJavascripts($autocomplete);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'prefix'                 => null,
@@ -153,14 +152,12 @@ class PlacesAutocompleteType extends AbstractType
             'language'               => $this->getRequest()->getLocale(),
         ));
 
-        $resolver->setAllowedTypes(array(
-            'prefix'                 => array('string', 'null'),
-            'bound'                  => array('Ivory\GoogleMap\Base\Bound', 'array', 'null'),
-            'types'                  => array('array'),
-            'component_restrictions' => array('array'),
-            'async'                  => array('bool'),
-            'language'               => array('string'),
-        ));
+        $resolver->setAllowedTypes('prefix', array('string', 'null'));
+        $resolver->setAllowedTypes('bound', array('Ivory\GoogleMap\Base\Bound', 'array', 'null'));
+        $resolver->setAllowedTypes('types', array('array'));
+        $resolver->setAllowedTypes('component_restrictions', array('array'));
+        $resolver->setAllowedTypes('async', array('bool'));
+        $resolver->setAllowedTypes('language', array('string'));
     }
 
     /**
@@ -168,7 +165,7 @@ class PlacesAutocompleteType extends AbstractType
      */
     public function getParent()
     {
-        return 'text';
+        return TextType::class;
     }
 
     /**

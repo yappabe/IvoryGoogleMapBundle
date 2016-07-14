@@ -15,13 +15,16 @@ use Ivory\GoogleMap\Places\AutocompleteComponentRestriction;
 use Ivory\GoogleMap\Places\AutocompleteType;
 use Ivory\GoogleMapBundle\Form\Type\PlacesAutocompleteType;
 use Symfony\Component\Form\Forms;
+use Symfony\Component\Form\PreloadedExtension;
+use Symfony\Component\Form\Test\TypeTestCase;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Places autocomplete type test.
  *
  * @author GeLo <geloen.eric@gmail.com>
  */
-class PlacesAutocompleteTypeTest extends \PHPUnit_Framework_TestCase
+class PlacesAutocompleteTypeTest extends TypeTestCase
 {
     /** @var \Symfony\Component\Form\FormFactoryInterface */
     protected $factory;
@@ -34,6 +37,9 @@ class PlacesAutocompleteTypeTest extends \PHPUnit_Framework_TestCase
 
     /** @var \Symfony\Component\HttpFoundation\Request */
     protected $requestMock;
+
+    /** @var RequestStack */
+    protected $requestStackMock;
 
     /**
      * {@inheritdoc}
@@ -50,14 +56,22 @@ class PlacesAutocompleteTypeTest extends \PHPUnit_Framework_TestCase
             ->method('getLocale')
             ->will($this->returnValue('en'));
 
+        $this->requestStackMock = new RequestStack();
+        $this->requestStackMock->push($this->requestMock);
+
         $this->placesAutocompleteType = new PlacesAutocompleteType(
             $this->placesAutocompleteHelperMock,
-            $this->requestMock
+            $this->requestStackMock
         );
 
-        $this->factory = Forms::createFormFactoryBuilder()
-            ->addType($this->placesAutocompleteType)
-            ->getFormFactory();
+        parent::setUp();
+    }
+
+    protected function getExtensions()
+    {
+        return [
+            new PreloadedExtension([$this->placesAutocompleteType], []),
+        ];
     }
 
     /**
@@ -79,7 +93,7 @@ class PlacesAutocompleteTypeTest extends \PHPUnit_Framework_TestCase
 
     public function testEmptyConfig()
     {
-        $form = $this->factory->create('places_autocomplete');
+        $form = $this->factory->create(PlacesAutocompleteType::class);
         $autocomplete = $form->getConfig()->getAttribute('autocomplete');
 
         $this->assertSame('place_autocomplete_', substr($autocomplete->getJavascriptVariable(), 0, 19));
@@ -91,7 +105,7 @@ class PlacesAutocompleteTypeTest extends \PHPUnit_Framework_TestCase
 
     public function testPrefixConfig()
     {
-        $form = $this->factory->create('places_autocomplete', null, array('prefix' => 'foo'));
+        $form = $this->factory->create(PlacesAutocompleteType::class, null, array('prefix' => 'foo'));
         $autocomplete = $form->getConfig()->getAttribute('autocomplete');
 
         $this->assertSame('foo', substr($autocomplete->getJavascriptVariable(), 0, 3));
@@ -101,7 +115,7 @@ class PlacesAutocompleteTypeTest extends \PHPUnit_Framework_TestCase
     {
         $boundMock = $this->getMock('Ivory\GoogleMap\Base\Bound');
 
-        $form = $this->factory->create('places_autocomplete', null, array('bound' => $boundMock));
+        $form = $this->factory->create(PlacesAutocompleteType::class, null, array('bound' => $boundMock));
         $autocomplete = $form->getConfig()->getAttribute('autocomplete');
 
         $this->assertSame($boundMock, $autocomplete->getBound());
@@ -110,7 +124,7 @@ class PlacesAutocompleteTypeTest extends \PHPUnit_Framework_TestCase
     public function testBoundConfigWithArray()
     {
         $form = $this->factory->create(
-            'places_autocomplete',
+            PlacesAutocompleteType::class,
             null,
             array('bound' => array(1.1, 2.1, 3.1, 4.1, true, false))
         );
@@ -128,7 +142,7 @@ class PlacesAutocompleteTypeTest extends \PHPUnit_Framework_TestCase
 
     public function testTypesConfig()
     {
-        $form = $this->factory->create('places_autocomplete', null, array('types' => array(AutocompleteType::CITIES)));
+        $form = $this->factory->create(PlacesAutocompleteType::class, null, array('types' => array(AutocompleteType::CITIES)));
         $autocomplete = $form->getConfig()->getAttribute('autocomplete');
 
         $this->assertSame(array(AutocompleteType::CITIES), $autocomplete->getTypes());
@@ -137,7 +151,7 @@ class PlacesAutocompleteTypeTest extends \PHPUnit_Framework_TestCase
     public function testComponentRestrictionsConfig()
     {
         $form = $this->factory->create(
-            'places_autocomplete',
+            PlacesAutocompleteType::class,
             null,
             array('component_restrictions' => array(AutocompleteComponentRestriction::COUNTRY => 'fr'))
         );
@@ -152,7 +166,7 @@ class PlacesAutocompleteTypeTest extends \PHPUnit_Framework_TestCase
 
     public function testAsyncConfig()
     {
-        $form = $this->factory->create('places_autocomplete', null, array('async' => true));
+        $form = $this->factory->create(PlacesAutocompleteType::class, null, array('async' => true));
         $autocomplete = $form->getConfig()->getAttribute('autocomplete');
 
         $this->assertTrue($autocomplete->isAsync());
@@ -160,7 +174,7 @@ class PlacesAutocompleteTypeTest extends \PHPUnit_Framework_TestCase
 
     public function testLanguageConfig()
     {
-        $form = $this->factory->create('places_autocomplete', null, array('language' => 'fr'));
+        $form = $this->factory->create(PlacesAutocompleteType::class, null, array('language' => 'fr'));
         $autocomplete = $form->getConfig()->getAttribute('autocomplete');
 
         $this->assertSame('fr', $autocomplete->getLanguage());
@@ -168,7 +182,7 @@ class PlacesAutocompleteTypeTest extends \PHPUnit_Framework_TestCase
 
     public function testInputAttributesConfig()
     {
-        $form = $this->factory->create('places_autocomplete', null, array('attr' => array('foo' => 'bar')));
+        $form = $this->factory->create(PlacesAutocompleteType::class, null, array('attr' => array('foo' => 'bar')));
         $autocomplete = $form->getConfig()->getAttribute('autocomplete');
 
         $this->assertSame(
@@ -179,7 +193,7 @@ class PlacesAutocompleteTypeTest extends \PHPUnit_Framework_TestCase
 
     public function testInputId()
     {
-        $form = $this->factory->create('places_autocomplete');
+        $form = $this->factory->create(PlacesAutocompleteType::class);
         $form->createView();
 
         $autocomplete = $form->getConfig()->getAttribute('autocomplete');
@@ -189,7 +203,7 @@ class PlacesAutocompleteTypeTest extends \PHPUnit_Framework_TestCase
 
     public function testValue()
     {
-        $form = $this->factory->create('places_autocomplete', 'foo');
+        $form = $this->factory->create(PlacesAutocompleteType::class, 'foo');
         $form->createView();
 
         $autocomplete = $form->getConfig()->getAttribute('autocomplete');
@@ -209,7 +223,7 @@ class PlacesAutocompleteTypeTest extends \PHPUnit_Framework_TestCase
             ->method('renderJavascripts')
             ->will($this->returnValue('javascripts'));
 
-        $form = $this->factory->create('places_autocomplete');
+        $form = $this->factory->create(PlacesAutocompleteType::class);
         $view = $form->createView();
 
         $this->assertSame('html', $view->vars['html']);
