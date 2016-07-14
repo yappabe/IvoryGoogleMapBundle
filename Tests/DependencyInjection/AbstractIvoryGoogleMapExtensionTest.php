@@ -17,6 +17,7 @@ use Ivory\GoogleMap\Services\Base\UnitSystem;
 use Ivory\GoogleMapBundle\DependencyInjection\IvoryGoogleMapExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Scope;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Widop\HttpAdapterBundle\DependencyInjection\WidopHttpAdapterExtension;
 
 /**
@@ -32,6 +33,9 @@ abstract class AbstractIvoryGoogleMapExtensionTest extends \PHPUnit_Framework_Te
     /** @var \Symfony\Component\HttpFoundation\Request */
     protected $requestMock;
 
+    /** @var RequestStack */
+    protected $requestStackMock;
+
     /**
      * {@inheritdoc}
      */
@@ -39,10 +43,13 @@ abstract class AbstractIvoryGoogleMapExtensionTest extends \PHPUnit_Framework_Te
     {
         $this->requestMock = $this->getMock('Symfony\Component\HttpFoundation\Request');
 
+        $this->requestStackMock = new RequestStack();
+        $this->requestStackMock->push($this->requestMock);
+
         $this->container = new ContainerBuilder();
-        $this->container->addScope(new Scope('request'));
+        $this->container->addScope(new Scope('request_stack'));
         $this->container->setParameter('templating.engines', array('php', 'twig'));
-        $this->container->set('request', $this->requestMock);
+        $this->container->set('request_stack', $this->requestStackMock);
         $this->container->registerExtension(new IvoryGoogleMapExtension());
         $this->container->registerExtension($httpAdapterExtension = new WidopHttpAdapterExtension());
         $this->container->loadFromExtension($httpAdapterExtension->getAlias());
@@ -1115,14 +1122,14 @@ abstract class AbstractIvoryGoogleMapExtensionTest extends \PHPUnit_Framework_Te
         $this->loadConfiguration($this->container, 'empty');
         $this->container->compile();
 
-        $this->container->enterScope('request');
+        $this->container->enterScope('request_stack');
 
         $this->assertInstanceOf(
             'Ivory\GoogleMapBundle\Form\Type\PlacesAutocompleteType',
             $this->container->get('ivory_google_map.places_autocomplete.form.type')
         );
 
-        $this->container->leaveScope('request');
+        $this->container->leaveScope('request_stack');
     }
 
     public function testTwigResources()

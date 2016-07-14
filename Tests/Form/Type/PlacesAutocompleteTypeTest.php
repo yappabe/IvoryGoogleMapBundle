@@ -15,6 +15,7 @@ use Ivory\GoogleMap\Places\AutocompleteComponentRestriction;
 use Ivory\GoogleMap\Places\AutocompleteType;
 use Ivory\GoogleMapBundle\Form\Type\PlacesAutocompleteType;
 use Symfony\Component\Form\Forms;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Places autocomplete type test.
@@ -35,6 +36,9 @@ class PlacesAutocompleteTypeTest extends \PHPUnit_Framework_TestCase
     /** @var \Symfony\Component\HttpFoundation\Request */
     protected $requestMock;
 
+    /** @var RequestStack */
+    protected $requestStackMock;
+
     /**
      * {@inheritdoc}
      */
@@ -50,9 +54,12 @@ class PlacesAutocompleteTypeTest extends \PHPUnit_Framework_TestCase
             ->method('getLocale')
             ->will($this->returnValue('en'));
 
+        $this->requestStackMock = new RequestStack();
+        $this->requestStackMock->push($this->requestMock);
+
         $this->placesAutocompleteType = new PlacesAutocompleteType(
             $this->placesAutocompleteHelperMock,
-            $this->requestMock
+            $this->requestStackMock
         );
 
         $this->factory = Forms::createFormFactoryBuilder()
