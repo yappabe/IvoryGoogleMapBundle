@@ -1,6 +1,6 @@
 language: php
 
-php: 5.3.3
+php: 5.6
 
 env:
     - SYMFONY_VERSION="2.1.*"
@@ -8,6 +8,11 @@ env:
     - SYMFONY_VERSION="2.3.*"
     - SYMFONY_VERSION="2.4.*"
     - SYMFONY_VERSION="2.5.*"
+    - SYMFONY_VERSION="2.6.*"
+    - SYMFONY_VERSION="2.7.*"
+    - SYMFONY_VERSION="2.8.*"
+    - SYMFONY_VERSION="3.0.*"
+    - SYMFONY_VERSION="3.1.*"
 
 before_script:
     - composer require --no-update symfony/framework-bundle:${SYMFONY_VERSION}
@@ -21,4 +26,4 @@ branches:
     only: master
 
 notifications:
-    email: geloen.eric@gmail.com
+    email: kevin@yappa.be
