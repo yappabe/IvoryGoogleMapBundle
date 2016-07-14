@@ -5,6 +5,7 @@
 Differences compared to the original:
 - Symfony 3.x support
 - API key support
+- Maps can be [styled using yaml](http://github.com/yappabe/IvoryGoogleMapBundle/blob/master/Resources/doc/usage/map/styles.md)
 
 The bundle provides an integration of the [Ivory Google Map](https://github.com/yappabe/ivory-google-map) library for
 your Symfony2 project.
