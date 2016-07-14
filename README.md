@@ -1,7 +1,7 @@
-# README
 
-[![Build Status](https://secure.travis-ci.org/egeloen/IvoryGoogleMapBundle.png)](http://travis-ci.org/egeloen/IvoryGoogleMapBundle)
-[![Coverage Status](https://coveralls.io/repos/egeloen/IvoryGoogleMapBundle/badge.png?branch=master)](https://coveralls.io/r/egeloen/IvoryGoogleMapBundle?branch=master)
+**Note: This is a copy of [egeloen/IvoryGoogleMapBundle](https://github.com/egeloen/IvoryGoogleMapBundle), the original repository is no longer maintained. We're paranoid, so we didn't fork.**
+
+# README
 
 The bundle provides an integration of the [Ivory Google Map](https://github.com/egeloen/ivory-google-map) library for
 your Symfony2 project.
