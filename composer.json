@@ -35,11 +35,5 @@
         "branch-alias": {
             "dev-master": "2.2-dev"
         }
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@github.com:yappabe/ivory-google-map.git"
-        }
-    ]
+    }
 }
