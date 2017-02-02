@@ -84,6 +84,18 @@ class TemplateHelper extends Helper
     }
 
     /**
+     * Renders the google map javascript libraries.
+     *
+     * @param \Ivory\GoogleMap\Map $map The map.
+     *
+     * @return string The html output.
+     */
+    public function renderJavascriptLibraries(Map $map)
+    {
+        return $this->mapHelper->renderJsLibraries($map);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getName()
