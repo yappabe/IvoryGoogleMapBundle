@@ -779,7 +779,7 @@ class IvoryGoogleMapExtension extends Extension
         if (isset($config['marker_cluster']['class'])) {
             $builderDefinition->replaceArgument(0, $config['marker_cluster']['class']);
         }
-
+        
         if (isset($config['marker_cluster']['helper_class'])) {
             $container
                 ->getDefinition('ivory_google_map.helper.marker_cluster')
@@ -799,6 +799,12 @@ class IvoryGoogleMapExtension extends Extension
 
         if (isset($config['marker_cluster']['options'])) {
             $builderDefinition->addMethodCall('setOptions', array($config['marker_cluster']['options']));
+        }
+        
+        if (isset($config['marker_cluster']['javascript_file'])){
+            $container
+                    ->getDefinition('ivory_google_map.marker_cluster.helper.js')
+                    ->addMethodCall('setUrl', array($config['marker_cluster']['javascript_file']));
         }
     }
 
@@ -1426,8 +1432,17 @@ class IvoryGoogleMapExtension extends Extension
 
             foreach ($config['extensions'] as $name => $service) {
                 $config['extensions'][$name] = new Reference($service);
+                if ($name === 'info_box'){
+                    if (!empty($config['info_box']['file'])){
+                        $container
+                            ->getDefinition('ivory_google_map.helper.extension.info_box')
+                            ->addMethodCall(
+                                'setSource',
+                                array($config['info_box']['file'])
+                            );
+                    }
+                }
             }
-
             $definition->replaceArgument(24, array_merge($definition->getArgument(24), $config['extensions']));
         }
     }
