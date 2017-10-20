@@ -94,6 +94,7 @@ class Configuration implements ConfigurationInterface
         $this->addDirectionsRequestSection($rootNode);
         $this->addDistanceMatrixSection($rootNode);
         $this->addDistanceMatrixRequestSection($rootNode);
+        $this->addInfoBoxSection($rootNode);
 
         return $treeBuilder;
     }
@@ -570,6 +571,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->arrayNode('marker_cluster')->addDefaultsIfNotSet()
                     ->children()
+                        ->scalarNode('javascript_file')->end()
                         ->scalarNode('class')->end()
                         ->scalarNode('helper_class')->end()
                         ->scalarNode('prefix_javascript_variable')->end()
@@ -1215,6 +1217,17 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('travel_mode')->end()
                         ->scalarNode('unit_system')->end()
                         ->booleanNode('sensor')->end()
+                    ->end()
+                ->end()
+            ->end();
+    }
+    
+    protected function addInfoBoxSection(ArrayNodeDefinition $node){
+        $node
+            ->children()
+                ->arrayNode('info_box')
+                    ->children()
+                        ->scalarNode('file')->end()
                     ->end()
                 ->end()
             ->end();
