@@ -94,6 +94,7 @@ class Configuration implements ConfigurationInterface
         $this->addDirectionsRequestSection($rootNode);
         $this->addDistanceMatrixSection($rootNode);
         $this->addDistanceMatrixRequestSection($rootNode);
+        $this->addInfoBoxSection($rootNode);
 
         return $treeBuilder;
     }
@@ -570,13 +571,34 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->arrayNode('marker_cluster')->addDefaultsIfNotSet()
                     ->children()
+                        ->scalarNode('javascript_file')->end()
                         ->scalarNode('class')->end()
                         ->scalarNode('helper_class')->end()
+                        ->scalarNode('js_helper_class')->end()
                         ->scalarNode('prefix_javascript_variable')->end()
                         ->scalarNode('type')->end()
                         ->arrayNode('options')
-                            ->useAttributeAsKey('options')
-                            ->prototype('scalar')->end()
+                            ->children()
+                                ->scalarNode('gridSize')->end()
+                                ->scalarNode('maxZoom')->end()
+                                ->scalarNode('zoomOnClick')->end()
+                                ->scalarNode('averageCenter')->end()
+                                ->scalarNode('minimumClusterSize')->end()
+                                ->arrayNode('styles')
+                                    ->prototype('array')
+                                        ->children()
+                                            ->scalarNode('url')->end()
+                                            ->scalarNode('height')->end()
+                                            ->scalarNode('width')->end()
+                                            ->scalarNode('anchor')->end()
+                                            ->scalarNode('textColor')->end()
+                                            ->scalarNode('textSize')->end()
+                                            ->scalarNode('backgroundPosition')->end()
+                                            ->scalarNode('iconAnchor')->end()
+                                        ->end()
+                                    ->end()
+                                ->end()
+                            ->end()
                         ->end()
                     ->end()
                 ->end()
@@ -1196,6 +1218,17 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('travel_mode')->end()
                         ->scalarNode('unit_system')->end()
                         ->booleanNode('sensor')->end()
+                    ->end()
+                ->end()
+            ->end();
+    }
+    
+    protected function addInfoBoxSection(ArrayNodeDefinition $node){
+        $node
+            ->children()
+                ->arrayNode('info_box')
+                    ->children()
+                        ->scalarNode('file')->end()
                     ->end()
                 ->end()
             ->end();
