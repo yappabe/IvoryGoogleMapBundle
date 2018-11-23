@@ -786,6 +786,12 @@ class IvoryGoogleMapExtension extends Extension
                 ->setClass($config['marker_cluster']['helper_class']);
         }
 
+        if (isset($config['marker_cluster']['js_helper_class'])) {
+            $container
+                ->getDefinition('ivory_google_map.marker_cluster.helper.js')
+                ->setClass($config['marker_cluster']['js_helper_class']);
+        }
+
         if (isset($config['marker_cluster']['prefix_javascript_variable'])) {
             $builderDefinition->addMethodCall(
                 'setPrefixJavascriptVariable',
@@ -804,7 +810,7 @@ class IvoryGoogleMapExtension extends Extension
         if (isset($config['marker_cluster']['javascript_file'])){
             $container
                     ->getDefinition('ivory_google_map.marker_cluster.helper.js')
-                    ->addMethodCall('setUrl', array($config['marker_cluster']['javascript_file']));
+                    ->addMethodCall('setSource', array($config['marker_cluster']['javascript_file']));
         }
     }
 

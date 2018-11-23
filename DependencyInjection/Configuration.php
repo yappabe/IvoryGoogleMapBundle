@@ -574,6 +574,7 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('javascript_file')->end()
                         ->scalarNode('class')->end()
                         ->scalarNode('helper_class')->end()
+                        ->scalarNode('js_helper_class')->end()
                         ->scalarNode('prefix_javascript_variable')->end()
                         ->scalarNode('type')->end()
                         ->arrayNode('options')

@@ -23,6 +23,7 @@
             id="ivory_google_map.helper.extension.info_box"
             class="%ivory_google_map.helper.extension.info_box.class%"
             public="false"
-        />
+        >
+        </service>
     </services>
 </container>
